@@ -1,0 +1,7 @@
+# Ignore
+dwm/
+slstatus/
+
+# Except
+dwm/config.h
+slstatus/config.h
