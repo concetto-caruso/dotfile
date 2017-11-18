@@ -1,5 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
+#define XF86AudioRaiseVolume	0x1008ff13 
+#define XF86AudioLowerVolume	0x1008ff11 
+#define XF86AudioMute		0x1008ff12
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -58,11 +62,21 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "stterm", NULL };
+static const char *chromecmd[]  = { "google-chrome", NULL };
+static const char *raisevolumecmd[]  = { "amixer", "sset", "Master", "5%+", NULL };
+static const char *lowervolumecmd[]  = { "amixer", "sset", "Master", "5%-", NULL };
+static const char *mutevolumecmd[]  = { "amixer", "sset", "Master", "toggle", NULL };
+static const char *shutdowncmd[]  = { "sudo", "shutdown", "now", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_a,      spawn,          {.v = chromecmd } },
+	{ MODKEY,            XF86AudioRaiseVolume, spawn,          {.v = raisevolumecmd } },
+	{ MODKEY,                   XF86AudioMute, spawn,          {.v = mutevolumecmd } },
+	{ MODKEY,            XF86AudioLowerVolume, spawn,          {.v = lowervolumecmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_h,      spawn,          {.v = shutdowncmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -70,12 +84,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
+	{ MODKEY,                       XK_m,      view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },

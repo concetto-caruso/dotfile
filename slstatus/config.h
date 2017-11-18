@@ -56,5 +56,6 @@ static const struct arg args[] = {
 	{ wifi_essid, "[ %s ]", "wlp3s0" },
 	{ temp, "[ %2s°C ]", "/sys/class/thermal/thermal_zone0/temp" },
 	{ battery_perc, "[ \u26A1 %2s%% ]", "BAT1" },
-	{ datetime, "; %s" ,       "%F %T" },
+	{ vol_perc, "[ %2s ]", "/dev/snd/hwC1D0" },
+	{ datetime, "[ %s" ,       "%F %T ]" },
 };
